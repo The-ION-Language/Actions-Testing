@@ -1,0 +1,38 @@
+name: Unpack Tar Files
+
+on:
+  push:
+    paths:
+      - 'tar-files/**.tar'  # Adjust this pattern based on where the tar files are located
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust this to the version of Node.js you need
+
+      - name: Create /src directory if it doesn't exist
+        run: mkdir -p src
+
+      - name: List tar files
+        run: |
+          echo "Listing tar files in tar-files directory:"
+          ls tar-files
+
+      - name: Extract tar files
+        run: |
+          for tarfile in tar-files/*.tar; do
+            if [ -f "$tarfile" ]; then
+              dirname=$(basename "$tarfile" .tar)
+              mkdir -p "src/$dirname"
+              tar -xf "$tarfile" -C "src/$dirname"
+              echo "Unpacked $tarfile into src/$dirname"
+            fi
+          done
