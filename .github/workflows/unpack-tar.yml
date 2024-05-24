@@ -1,4 +1,4 @@
-name: Unpack Tar Files
+name: Unpack tgz Files
 
 on:
   push:
@@ -25,18 +25,18 @@ jobs:
       - name: Create /src directory if it doesn't exist
         run: mkdir -p src
 
-      - name: List tar files
+      - name: List tgz files
         run: |
-          echo "Listing tar files in root directory:"
-          ls *.tar || echo "No tar files found"
+          echo "Listing tgz files in root directory:"
+          ls *.tgz || echo "No tgz files found"
 
-      - name: Extract tar files
+      - name: Extract tgz files
         run: |
-          for tarfile in *.tar; do
-            if [ -f "$tarfile" ]; then
-              dirname=$(basename "$tarfile" .tar)
+          for tgzfile in *.tgz; do
+            if [ -f "$tgzfile" ]; then
+              dirname=$(basename "$tgzfile" .tgz)
               mkdir -p "src/$dirname"
-              tar -xf "$tarfile" -C "src/$dirname"
-              echo "Unpacked $tarfile into src/$dirname"
+              tgz -xf "$tgzfile" -C "src/$dirname"
+              echo "Unpacked $tgzfile into src/$dirname"
             fi
           done
