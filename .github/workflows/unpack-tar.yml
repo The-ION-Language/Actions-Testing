@@ -36,7 +36,7 @@ jobs:
             if [ -f "$tgzfile" ]; then
               dirname=$(basename "$tgzfile" .tgz)
               mkdir -p "src/$dirname"
-              tgz -xf "$tgzfile" -C "src/$dirname"
+              tar -xf "$tgzfile" -C "src/$dirname"
               echo "Unpacked $tgzfile into src/$dirname"
             fi
           done
