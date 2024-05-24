@@ -3,7 +3,11 @@ name: Unpack Tar Files
 on:
   push:
     paths:
-      - '**.tar'
+      - '*.tar'
+  pull_request:
+    paths:
+      - '*.tar'
+  workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
   unpack:
@@ -13,18 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'  # Adjust this to the version of Node.js you need
-
       - name: Create /src directory if it doesn't exist
         run: mkdir -p src
 
       - name: List tar files
         run: |
-          echo "Listing tar files in tar-files directory:"
-          ls tar-files
+          echo "Listing tar files in root directory:"
+          ls *.tar || echo "No tar files found"
 
       - name: Extract tar files
         run: |
